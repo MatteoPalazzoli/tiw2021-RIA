@@ -1,5 +1,8 @@
 package it.pala.tiwria.controllers;
 
+import it.pala.tiwria.dao.CategoryDAO;
+import it.pala.tiwria.exceptions.IllegalMoveException;
+import it.pala.tiwria.exceptions.NoSuchCategoryException;
 import org.apache.commons.text.StringEscapeUtils;
 
 import javax.servlet.annotation.MultipartConfig;
@@ -8,7 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
+import java.sql.SQLException;
 
 @WebServlet(name="MoveTo", value="/Move")
 @MultipartConfig
@@ -32,23 +35,46 @@ public class MoveTo extends Controller {
         }
 
         String listStr = StringEscapeUtils.escapeJava(request.getParameter("list"));
-        out.println("Sent: "+listStr);
         String[] ids = listStr.split(",");
+        //couples of values are sent
         if(ids.length % 2 != 0){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            out.println("Missing values");
+            out.println("Missing values (odd number of values sent).");
             return;
         }
         String fromId, toId;
         for(int i=0; i<ids.length; i++){
-            fromId = ids[i];
-            toId = ids[i+1];
-            if(toId.startsWith(fromId)){
+            fromId = ids[i].substring(3);
+            toId = ids[i+1].substring(3);
+            try{
+                //number check
+                Integer.parseInt(fromId);
+                Integer.parseInt(toId);
+            } catch(NumberFormatException e){
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                out.println("Cannot move a father under a child.");
+                out.println("Illegal arguments (not numbers).");
                 return;
             }
-            //TODO
+            //recursive update check
+            if(toId.startsWith(fromId)){
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                out.println("Cannot move a father under a child ("+fromId+" -> "+toId+").");
+                return;
+            }
+            out.println("moved "+fromId+" to "+toId);
+            CategoryDAO dao = new CategoryDAO(connection);
+            try {
+                dao.updateCategory(fromId, toId);
+            } catch (SQLException e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+                out.println("[SQL] Could not move the category from "+fromId+" to "+toId+".");
+                return;
+            } catch (NoSuchCategoryException | IllegalMoveException | IndexOutOfBoundsException e) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                out.println(e.getMessage());
+                return;
+            }
+            response.setStatus(HttpServletResponse.SC_OK);
         }
     }
 }

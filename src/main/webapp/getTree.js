@@ -13,20 +13,30 @@
                             document.getElementById("id_alert").textContent = "The tree is empty.";
                             return;
                         }
+                        row = document.createElement("tr");
+                        nameCell = document.createElement("td");
+                        row.classList.add("draggable");
+                        nameCell.classList.add("draggable");
+                        nameCell.setAttribute("id", "cat0");
+                        nameCell.textContent = "0 Root";
+                        nameCell.style.display = "none";
+                        row.appendChild(nameCell);
+                        table.appendChild(row);
                         listOfCategories.forEach( c => {
                             row = document.createElement("tr");
                             nameCell = document.createElement("td");
                             nameCell.setAttribute("draggable", "true");
                             nameCell.classList.add("draggable");
+                            row.classList.add("draggable");
                             nameCell.setAttribute("id", "cat"+c.id);
-                            nameCell.textContent = c.id + " "+ c.name;
+                            let spaces = "";
+                            for(let i=0; i<c.id.length; i++){
+                                spaces += "&nbsp;&nbsp;&nbsp;&nbsp;";
+                            }
+                            nameCell.innerHTML = spaces+c.id + " "+ c.name;
                             row.appendChild(nameCell);
                             table.appendChild(row);
                         })
-                        /*document.querySelectorAll("td").forEach( item => {
-                            item.addEventListener("dragstart", (e) => drag(e));
-                            item.addEventListener("dragover", (e) => allowDrop(e));
-                        })*/
                     } else if (req.status === 403) {
                         window.location.href = req.getResponseHeader("Location");
                         window.sessionStorage.removeItem('user');

@@ -2,8 +2,6 @@
 :
 
 tiwRia.iml,f\a\fa2ccb59604170bf6de0e79e4c0ce997826eb2e2
-d
-4src/main/java/it/pala/tiwria/controllers/Logout.java,b\0\b03edd0384347a0e3c6f282831f5dfdd4e86b7e9
 \
 ,src/main/java/it/pala/tiwria/beans/User.java,3\8\3869cea37dcf83fe1e1b767997dfb30939b28f7a
 w
@@ -16,5 +14,3 @@ o
 ?src/main/java/it/pala/tiwria/exceptions/WrongUserException.java,9\8\98664ce4c5ca9292c49578642ca057a9bc9939e2
 ]
 -src/main/java/it/pala/tiwria/dao/UserDAO.java,8\8\88daf40fe2fecf4568627f5af010f06904acb88e
-a
-1src/main/java/it/pala/tiwria/dao/CategoryDAO.java,7\7\77763add37a4925b8e85514287bc6fafa91209cd

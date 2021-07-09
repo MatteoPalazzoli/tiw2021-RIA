@@ -11,46 +11,43 @@ import java.util.List;
 
 public class CategoryDAO {
 
-    private Connection connection;
+    private final Connection connection;
 
     public CategoryDAO(Connection connection){
         this.connection = connection;
     }
 
     /**
-     * @param name Name of a category
+     * @param category Name of a category
      * @return Category's ID
-     * @throws SQLException if there is a database error
+     * @throws NoSuchCategoryException if the category is not found
      */
-    public String findID(String name) throws NoSuchCategoryException {
-        String query = "SELECT ID FROM category WHERE Name = ?";
+    public Category findCategory(String category, ParamType type) throws NoSuchCategoryException {
+        String param;
+        String toFind;
+        if(type == ParamType.ID){
+            param = "ID";
+            toFind = "Name";
+        } else {
+            param = "Name";
+            toFind = "ID";
+        }
+        String query = "SELECT "+toFind+" FROM category WHERE "+param+" = ?";
         try (PreparedStatement pStatement = connection.prepareStatement(query)) {
-            pStatement.setString(1, name);
+            pStatement.setString(1, category);
             try(ResultSet result = pStatement.executeQuery()){
                 result.next();
-                return result.getString("ID");
+                return type==ParamType.ID ?
+                        new Category(category, result.getString(toFind)) :
+                        new Category(result.getString(toFind), category);
             }
         } catch (SQLException e){
             e.printStackTrace();
-            throw new NoSuchCategoryException("Category "+name+" doesn't exists.");
+            throw new NoSuchCategoryException(param+" \""+category+"\" doesn't exists.");
         }
     }
 
-    public String findNameByID(String id) throws NoSuchCategoryException {
-        String query = "SELECT Name FROM category WHERE ID = ?";
-        try (PreparedStatement pStatement = connection.prepareStatement(query)) {
-            pStatement.setString(1, id);
-            try(ResultSet result = pStatement.executeQuery()){
-                result.next();
-                return result.getString("Name");
-            }
-        } catch (SQLException e){
-            e.printStackTrace();
-            throw new NoSuchCategoryException("ID "+id+" doesn't exists.");
-        }
-    }
-
-    public String findNextIdByFather(String father) throws SQLException, NoSuchCategoryException, IndexOutOfBoundsException {
+    public String findNextChildId(String father) throws SQLException, NoSuchCategoryException, IndexOutOfBoundsException {
         String query;
         ResultSet result;
         if(father.equals("Root")){
@@ -69,7 +66,7 @@ public class CategoryDAO {
             result = statement.executeQuery(query);
             result.next();
             String id = result.getString("NextChildID");
-            if(id==null){ id = findID(father)+"1"; }
+            if(id==null){ id = findCategory(father, ParamType.NAME).getId()+"1"; }
             if(id.endsWith("0")){
                 throw new IndexOutOfBoundsException("Maximum of 9 (sub-)categories reached.");
             }
@@ -100,17 +97,17 @@ public class CategoryDAO {
 
     public void createCategory(String name, String father) throws SQLException, NoSuchCategoryException, DuplicateCategoryException, IndexOutOfBoundsException {
         String query = "INSERT INTO category (ID, Name) VALUES (?, ?)";
-        if(isPresent(name, false)) throw new DuplicateCategoryException();
-        if(!isPresent(father, false)) throw new NoSuchCategoryException("Category "+father+" doesn't exists.");
+        if(isPresent(name, ParamType.NAME)) throw new DuplicateCategoryException();
+        if(!isPresent(father, ParamType.NAME)) throw new NoSuchCategoryException("Category "+father+" doesn't exists.");
         try(PreparedStatement pStatement = connection.prepareStatement(query)){
-            pStatement.setString(1, findNextIdByFather(father));
+            pStatement.setString(1, findNextChildId(father));
             pStatement.setString(2, name);
             pStatement.executeUpdate();
         }
     }
 
-    private boolean isPresent(String category, boolean isId) throws SQLException {
-        String param = isId ? "ID" : "Name";
+    private boolean isPresent(String category, ParamType type) throws SQLException {
+        String param = type == ParamType.ID ? "ID" : "Name";
         String query = "SELECT ID FROM category WHERE "+param+" = '"+category+"'";
         ResultSet set;
         try(Statement s = connection.prepareStatement(query)){
@@ -152,11 +149,14 @@ public class CategoryDAO {
      * @throws NoSuchCategoryException if the new father doesn't exist
      */
     public void updateCategory(String id, String destinationId) throws SQLException, NoSuchCategoryException, IllegalMoveException, IndexOutOfBoundsException {
-        if(!isPresent(id, true)) throw new NoSuchCategoryException("Category "+id+" doesn't exists.");
-        if(!isPresent(destinationId, true)) throw new NoSuchCategoryException("Category "+destinationId+" doesn't exists.");
+        if(!isPresent(id, ParamType.ID)) throw new NoSuchCategoryException("Category "+id+" doesn't exists.");
+        if(!isPresent(destinationId, ParamType.ID)) throw new NoSuchCategoryException("Category "+destinationId+" doesn't exists.");
         if(!id.equals(destinationId) && destinationId.startsWith(id)) throw new IllegalMoveException("Cannot move a father under one of its children.");
+
         List<String> ids = getTree(id);
-        String newFather = findNextIdByFather(findNameByID(destinationId));
+        Category destination = findCategory(destinationId, ParamType.ID);
+        String newFather = findNextChildId(destination.getName());
+
         for(String i : ids){
             String newId = i.replaceFirst(id, newFather);
             String query = "UPDATE category SET ID = ? WHERE ID = ?";

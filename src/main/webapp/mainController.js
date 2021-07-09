@@ -5,16 +5,6 @@
         } else {
             document.getElementById("id_username").textContent = sessionStorage.getItem("user");
             getTree();
-            const list = document.querySelectorAll("td");
-            /*list.forEach( item => {
-                item.addEventListener("dragstart", (e) => drag(list, e));
-                item.addEventListener("dragover", (e) => {
-                    allowDrop(e);
-                })
-                item.addEventListener("drop", (e) => {
-                    drop(e);
-                })
-            })*/
         }
     }, false);
 
@@ -33,15 +23,19 @@
     }, false);
 
     document.addEventListener("dragstart", function( event ) {
-        // store a ref. on the dragged elem
         dragged = event.target;
-        // make it half transparent
-        event.target.style.opacity = .5;
+        dragged.style.opacity = .5;
+        document.getElementById("cat0").style.display = "block";
+        let list = getSubTree(dragged.id);
+        list.filter(c => c.id !== dragged.id).forEach( c => {
+            c.classList.remove("draggable");
+            c.setAttribute("draggable", "false")});
     }, false);
 
     document.addEventListener("dragend", function( event ) {
         // reset the transparency
         event.target.style.opacity = "";
+        document.getElementById("cat0").style.display = "none";
     }, false);
 
     /* events fired on the drop targets */
@@ -72,8 +66,14 @@
         // move dragged elem to the selected drop target
         if ( event.target.className === "draggable" ) {
             event.target.style.background = "";
-            dragged.parentNode.removeChild( dragged );
-            event.target.appendChild( dragged );
+            let draggedId = dragged.id;
+            let toMove = document.querySelectorAll("[id^=draggedId]")
+            let nextId = findNextId(event.target.id);
+            toMove.forEach( item => {
+                document.getElementById(item.id).parentNode.removeChild(item);
+                item.id.replace(draggedId, nextId);
+            })
+            insertAfter(event.target.parentNode, dragged.parentNode);
             ids.push(dragged.id, event.target.id);
             document.getElementById("saveButton").style.display = "block";
         }
@@ -83,9 +83,10 @@
     document.getElementById("saveButton").addEventListener("click", (e) => {
         let data = new FormData();
         data.append("list", ids.toString());
+        ids = [];
         makeCall("POST", "Move", data, function(x){
             if (x.readyState === XMLHttpRequest.DONE) {
-                document.getElementById("errormessage").textContent = x.responseText;
+                document.getElementById("id_alert").textContent = x.responseText;
             }
             getTree();
             document.getElementById("saveButton").style.display = "none";
