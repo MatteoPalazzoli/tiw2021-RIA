@@ -44,7 +44,7 @@ public class MoveHere extends Controller {
         }
 
         response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType(APP_TYPE);
+        response.setContentType(APP_JSON);
         response.setCharacterEncoding(UTF8);
     }
 }

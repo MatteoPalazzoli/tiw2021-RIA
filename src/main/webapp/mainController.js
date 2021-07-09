@@ -8,8 +8,9 @@
         }
     }, false);
 
-    const form = document.getElementById("addCatForm");
-    form.addEventListener("submit", addCategory);
-
-
+    const addBtn = document.getElementById("addCatSubmit");
+    addBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        addCategory();
+    });
 }

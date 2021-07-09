@@ -22,15 +22,15 @@ public class GetTree extends Controller {
             categories = dao.getTree();
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.setContentType(APP_TYPE);
+            response.setContentType(APP_JSON);
             response.setCharacterEncoding(UTF8);
-            response.getWriter().println("Not possible to retrieve the categories");
+            response.getWriter().println("Couldn't retrieve the categories");
             return;
         }
 
         Gson gson = new Gson();
         String json = gson.toJson(categories);
-        response.setContentType(APP_TYPE);
+        response.setContentType(APP_JSON);
         response.setCharacterEncoding(UTF8);
         response.getWriter().write(json);
     }

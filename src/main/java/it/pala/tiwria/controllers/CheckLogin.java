@@ -4,30 +4,25 @@ import it.pala.tiwria.dao.UserDAO;
 import it.pala.tiwria.exceptions.WrongUserException;
 import org.apache.commons.text.StringEscapeUtils;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.Map;
 
 @WebServlet(name="CheckLogin", value={"/CheckLogin"})
 @MultipartConfig
 public class CheckLogin extends Controller {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
         doPost(request, response);
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
         String user, pwd, name = "";
         PrintWriter out;
         response.setCharacterEncoding(UTF8);

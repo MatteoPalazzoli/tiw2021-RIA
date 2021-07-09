@@ -6,29 +6,52 @@ import it.pala.tiwria.exceptions.NoSuchCategoryException;
 import org.apache.commons.text.StringEscapeUtils;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.SQLException;
 
 @WebServlet(name="AddCategory", value="/AddCategory")
+@MultipartConfig
 public class AddCategory extends Controller {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        response.getWriter().println("getted");
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
+        response.setContentType("text/html");
+        PrintWriter out;
+        response.setCharacterEncoding(UTF8);
+        try{
+            out = response.getWriter();
+        } catch (IOException e){
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
+        response.setStatus(HttpServletResponse.SC_OK);
+        out.print("GET used");
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+        PrintWriter out;
+        try{
+            out = response.getWriter();
+        } catch (IOException e){
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
+        response.setCharacterEncoding(UTF8);
+        response.setContentType("text/html");
+
         String name = StringEscapeUtils.escapeJava(request.getParameter("name"));
         String father = StringEscapeUtils.escapeJava(request.getParameter("father"));
         String errorMsg = "";
 
         if(emptyField(name) || emptyField(father)){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            response.getWriter().println("Details must be not null or empty");
+            out.println("Details must be not null or empty");
             return;
         }
 
@@ -37,7 +60,7 @@ public class AddCategory extends Controller {
             dao.createCategory(name, father);
         } catch (SQLException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            response.getWriter().println("Could not add the category.");
+            out.println("Could not add the category.");
             return;
         } catch (NoSuchCategoryException | IndexOutOfBoundsException e){
             errorMsg = e.getMessage();
@@ -45,8 +68,6 @@ public class AddCategory extends Controller {
             errorMsg = "Category "+name+" already exists.";
         }
         response.setStatus(HttpServletResponse.SC_OK);
-        response.setContentType(APP_TYPE);
-        response.setCharacterEncoding(UTF8);
-        response.getWriter().println(errorMsg);
+        out.println(errorMsg);
     }
 }

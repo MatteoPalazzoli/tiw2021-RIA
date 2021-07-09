@@ -1,6 +1,7 @@
 {
     function getTree(){
         const table = document.getElementById("treeContainer");
+        table.innerHTML = ""; //removing old rows
         makeCall("GET", "GetTree", null,
             function(req) {
                 let row, nameCell;

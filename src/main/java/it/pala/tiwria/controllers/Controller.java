@@ -9,7 +9,7 @@ import java.sql.Connection;
 public class Controller extends HttpServlet {
 
     Connection connection;
-    static final String APP_TYPE = "application/json";
+    static final String APP_JSON = "application/json";
     static final String UTF8 = "UTF-8";
 
     @Override
