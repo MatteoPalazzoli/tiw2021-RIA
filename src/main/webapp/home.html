@@ -7,8 +7,10 @@
     <script src="mainController.js" charset="utf-8" defer></script>
     <script src="getTree.js" charset="utf-8" defer></script>
     <script src="addCat.js" charset="utf-8" defer></script>
+    <script src="dragNDrop.js" charset="utf-8" defer></script>
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <style>td{cursor: pointer;}</style>
 </head>
 <body>
     <h1>Category list</h1>
@@ -19,6 +21,7 @@
         </tbody>
     </table>
 
+    <button id="saveButton" style="display:none">Save</button>
     <p id="errorMessage"></p>
 
     <h1>Add a category</h1>

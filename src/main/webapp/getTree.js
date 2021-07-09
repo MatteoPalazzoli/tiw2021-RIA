@@ -16,10 +16,17 @@
                         listOfCategories.forEach( c => {
                             row = document.createElement("tr");
                             nameCell = document.createElement("td");
+                            nameCell.setAttribute("draggable", "true");
+                            nameCell.classList.add("draggable");
+                            nameCell.setAttribute("id", "cat"+c.id);
                             nameCell.textContent = c.id + " "+ c.name;
                             row.appendChild(nameCell);
                             table.appendChild(row);
-                        });
+                        })
+                        /*document.querySelectorAll("td").forEach( item => {
+                            item.addEventListener("dragstart", (e) => drag(e));
+                            item.addEventListener("dragover", (e) => allowDrop(e));
+                        })*/
                     } else if (req.status === 403) {
                         window.location.href = req.getResponseHeader("Location");
                         window.sessionStorage.removeItem('user');

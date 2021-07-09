@@ -5,7 +5,6 @@ import it.pala.tiwria.exceptions.DuplicateCategoryException;
 import it.pala.tiwria.exceptions.NoSuchCategoryException;
 import org.apache.commons.text.StringEscapeUtils;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
