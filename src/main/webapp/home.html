@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Category list</title>
+    <script src="utils.js" charset="utf-8" defer></script>
+    <script src="mainController.js" charset="utf-8" defer></script>
+    <script src="getTree.js" charset="utf-8" defer></script>
+    <script src="addCat.js" charset="utf-8" defer></script>
+</head>
+<body>
+    <h1>Category list</h1>
+    <p>Nice to see you again, <span id="id_username"></span>.<a href="Logout"> (logout)</a></p>
+    <div id="id_alert" class="alertMessage"></div>
+    <table>
+        <tbody id="treeContainer">
+        </tbody>
+    </table>
+
+    <p id="errorMessage"></p>
+
+    <h1>Add a category</h1>
+    <form id="addCatForm" action="#">
+        <label for="name">New category's name: </label>
+        <input type="text" name="name" id="name" placeholder="Category's name" required>
+        <label for="father">Father's name: </label>
+        <input type="text" name="father" id="father" placeholder="Category's father" required>
+        <input id="addCatSubmit" type="button" value="add">
+    </form>
+</body>
+</html>
