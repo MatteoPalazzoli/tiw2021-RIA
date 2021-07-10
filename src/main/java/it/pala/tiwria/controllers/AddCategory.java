@@ -28,7 +28,7 @@ public class AddCategory extends Controller {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
-        response.setStatus(HttpServletResponse.SC_OK);
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         out.print("GET used");
     }
 
@@ -46,7 +46,6 @@ public class AddCategory extends Controller {
 
         String name = StringEscapeUtils.escapeJava(request.getParameter("name"));
         String father = StringEscapeUtils.escapeJava(request.getParameter("father"));
-        String errorMsg = "";
 
         if(emptyField(name) || emptyField(father)){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -62,11 +61,15 @@ public class AddCategory extends Controller {
             out.println("Could not add the category.");
             return;
         } catch (NoSuchCategoryException | IndexOutOfBoundsException e){
-            errorMsg = e.getMessage();
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.println(e.getMessage());
+            return;
         } catch (DuplicateCategoryException e){
-            errorMsg = "Category "+name+" already exists.";
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.println("Category "+name+" already exists.");
+            return;
         }
         response.setStatus(HttpServletResponse.SC_OK);
-        out.println(errorMsg);
+        out.println("Category added.");
     }
 }

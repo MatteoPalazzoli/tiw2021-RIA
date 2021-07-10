@@ -26,10 +26,10 @@
         dragged = event.target;
         dragged.style.opacity = .5;
         document.getElementById("cat0").style.display = "block";
-        let list = getSubTree(dragged.id);
-        list.filter(c => c.id !== dragged.id).forEach( c => {
-            c.classList.remove("draggable");
-            c.setAttribute("draggable", "false")});
+        let list = getChildren(dragged.id);
+        list.forEach(c => {c.setAttribute("draggable", "false")});
+        list = getOthers(dragged.id);
+        list.forEach(c => {c.classList.add("dropzone")});
     }, false);
 
     document.addEventListener("dragend", function( event ) {
@@ -40,40 +40,36 @@
 
     /* events fired on the drop targets */
     document.addEventListener("dragover", function( event ) {
-        // prevent default to allow drop
-        event.preventDefault();
+        // prevent default to allow drop on drop zones
+        if(event.target.className === "dropzone"){
+            event.preventDefault();
+        }
     }, false);
 
     document.addEventListener("dragenter", function( event ) {
-        // highlight potential drop target when the draggable element enters it
-        if ( event.target.className === "draggable" ) {
-            event.target.style.background = "purple";
-        }
-
     }, false);
 
     document.addEventListener("dragleave", function( event ) {
-        // reset background of potential drop target when the draggable element leaves it
-        if ( event.target.className === "draggable" ) {
-            event.target.style.background = "";
-        }
-
     }, false);
 
     document.addEventListener("drop", function( event ) {
         // prevent default action (open as link for some elements)
         event.preventDefault();
-        // move dragged elem to the selected drop target
-        if ( event.target.className === "draggable" ) {
-            event.target.style.background = "";
-            let draggedId = dragged.id;
-            let toMove = document.querySelectorAll("[id^=draggedId]")
-            let nextId = findNextId(event.target.id);
-            toMove.forEach( item => {
-                document.getElementById(item.id).parentNode.removeChild(item);
-                item.id.replace(draggedId, nextId);
-            })
-            insertAfter(event.target.parentNode, dragged.parentNode);
+        let destRow = event.target.parentNode;
+        // move dragged elem and children to the selected drop target
+        if ( event.target.className === "dropzone" ) {
+            let list = document.getElementsByTagName("td");
+            for(let i=0; i<list.length; i++){
+                list[i].classList.remove("dropzone");
+            }
+            let toMove = document.querySelectorAll("[id^="+dragged.id+"]");
+            for(let i=0; i<toMove.length; i++){
+                toMove[i].parentNode.removeChild(toMove[i]);
+                toMove[i].textContent.replace(dragged.id, findNextId(event.target.id));
+                let row = document.createElement("tr");
+                row.appendChild(toMove[i]);
+                insertAfter(destRow, row);
+            }
             ids.push(dragged.id, event.target.id);
             document.getElementById("saveButton").style.display = "block";
         }
@@ -86,7 +82,7 @@
         ids = [];
         makeCall("POST", "Move", data, function(x){
             if (x.readyState === XMLHttpRequest.DONE) {
-                document.getElementById("id_alert").textContent = x.responseText;
+                showAlert(x.responseText);
             }
             getTree();
             document.getElementById("saveButton").style.display = "none";

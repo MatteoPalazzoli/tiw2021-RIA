@@ -1,0 +1,55 @@
+td:hover {
+    background: #04AA6D;
+}
+td{
+    cursor: pointer;
+}
+
+.dropzone:hover{
+    background: #04AA6D;
+}
+
+.alertMessage {
+    padding: 30px;
+    background-color: #47A8F5;
+    color: white;
+    display: none;
+}
+.errorMessage {
+    padding: 30px;
+    background-color: #F66358;
+    color: white;
+    display: none;
+}
+
+
+#logout {
+    padding: 5px;
+    background-color: #F66358;
+    color: white;
+    border-radius: 10px;
+    text-decoration: none;
+}
+
+#saveButton {
+    padding: 20px;
+    background-color: #04AA6D;
+    color: white;
+    display: none;
+    cursor: pointer;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.closebtn:hover {
+    color: black;
+}

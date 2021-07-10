@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Category list</title>
@@ -7,22 +7,31 @@
     <script src="mainController.js" charset="utf-8" defer></script>
     <script src="getTree.js" charset="utf-8" defer></script>
     <script src="addCat.js" charset="utf-8" defer></script>
+    <script src="categoriesManagement.js" charset="utf-8" defer></script>
+
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/tables.css">
     <style>td{cursor: pointer;}</style>
 </head>
 <body>
     <h1>Category list</h1>
-    <p>Nice to see you again, <span id="id_username"></span>.<a href="Logout"> (logout)</a></p>
-    <div id="id_alert" class="alertMessage"></div>
-    <table>
+    <p>Nice to see you again, <span id="id_username"></span>. <a id="logout" href="Logout">logout</a></p>
+    <div id="id_alert" class="alertMessage">
+        <span id="closebtn" class="closebtn">&times;</span>
+    </div>
+    <div id="errorMessage" class="errorMessage">
+        <span id="closebtn2" class="closebtn">&times;</span>
+    </div>
+    <table class="pure-table pure-table-horizontal">
+        <caption>Drag an element on another to move the portion of the tree.</caption>
         <tbody id="treeContainer">
-        <tr><td id="rootNode" style="display:none">0 Root</td></tr>
+        <tr><th id="rootNode" style="display:none">0 Root</th></tr>
         </tbody>
     </table>
 
     <button id="saveButton" style="display:none">Save</button>
-    <p id="errorMessage"></p>
 
     <h1>Add a category</h1>
     <form id="addCatForm" action="#">

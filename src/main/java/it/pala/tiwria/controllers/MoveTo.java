@@ -55,13 +55,13 @@ public class MoveTo extends Controller {
                 out.println("Illegal arguments (not numbers).");
                 return;
             }
-            //recursive update check
+            //father under child check
             if(toId.startsWith(fromId)){
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                out.println("Cannot move a father under a child ("+fromId+" -> "+toId+").");
+                out.println("Cannot move a father under a child (\""+fromId+"\" to \""+toId+"\"). ");
                 return;
             }
-            out.println("moved "+fromId+" to "+toId);
+
             CategoryDAO dao = new CategoryDAO(connection);
             try {
                 dao.updateCategory(fromId, toId);
@@ -75,6 +75,7 @@ public class MoveTo extends Controller {
                 return;
             }
             response.setStatus(HttpServletResponse.SC_OK);
+            out.println("Moved \""+fromId+"\" to \""+toId+"\". ");
         }
     }
 }

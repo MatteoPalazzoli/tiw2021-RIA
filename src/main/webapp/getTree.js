@@ -10,13 +10,11 @@
                     if (req.status === 200) {
                         const listOfCategories = JSON.parse(req.responseText);
                         if (listOfCategories.length === 0) {
-                            document.getElementById("id_alert").textContent = "The tree is empty.";
+                            showAlert("The tree is empty.");
                             return;
                         }
                         row = document.createElement("tr");
                         nameCell = document.createElement("td");
-                        row.classList.add("draggable");
-                        nameCell.classList.add("draggable");
                         nameCell.setAttribute("id", "cat0");
                         nameCell.textContent = "0 Root";
                         nameCell.style.display = "none";
@@ -26,8 +24,6 @@
                             row = document.createElement("tr");
                             nameCell = document.createElement("td");
                             nameCell.setAttribute("draggable", "true");
-                            nameCell.classList.add("draggable");
-                            row.classList.add("draggable");
                             nameCell.setAttribute("id", "cat"+c.id);
                             let spaces = "";
                             for(let i=0; i<c.id.length; i++){
@@ -42,7 +38,7 @@
                         window.sessionStorage.removeItem('user');
                     }
                     else {
-                        document.getElementById("id_alert").textContent = message;
+                        showAlert(message);
                     }
                 }
             }

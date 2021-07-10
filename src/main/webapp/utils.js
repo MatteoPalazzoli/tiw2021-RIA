@@ -27,25 +27,6 @@ function makeCall(method, url, formElement, cback, reset = true) {
         req.send(new FormData(formElement));
     }
     if (formElement !== null && reset === true) {
-        formElement.reset();
+        //TODO formElement.reset();
     }
-}
-
-function insertAfter(referenceNode, newNode) {
-    referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-}
-
-function findNextId(fatherId){
-    let max = "";
-    const list = document.querySelectorAll("[id^=fatherId]");
-    list.forEach( c => {
-        c.id = c.id.substr(0, 3);
-        if(c.id > max) max = c.id;
-    });
-    if(max.length === fatherId.length) return fatherId+"1";
-    else return parseInt(max, 10)+1;
-}
-
-function getSubTree(input){
-    return document.querySelectorAll("[id^=input]");
 }
