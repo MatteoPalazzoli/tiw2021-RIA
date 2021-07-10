@@ -6,7 +6,6 @@
     //fatherId is like "12"
     function findNextId(fatherId){
         let max = "";
-        if(fatherId.startsWith("cat")) fatherId = fatherId.substring(3);
         if(fatherId === "0"){
             for(let i=1; i<=9; i++){
                 let result = document.getElementById("cat"+i);
@@ -23,12 +22,14 @@
                 newList.push(list[i]);
             }
         }
+        if(newList.length === 0){
+            return fatherId+"1";
+        }
         for(let i=0; i<newList.length; i++){
             let num = newList[i].textContent.split(" ", 1)[0];
             if(num > max) max = num;
         }
-        if(max.length === fatherId.length) return fatherId+"1";
-        else return parseInt(max, 10)+1;
+        return parseInt(max, 10)+1;
     }
 
     function getAll(){
