@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Category list</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="utils.js" charset="utf-8" defer></script>
     <script src="mainController.js" charset="utf-8" defer></script>
     <script src="getTree.js" charset="utf-8" defer></script>
@@ -16,30 +17,30 @@
     <style>td{cursor: pointer;}</style>
 </head>
 <body>
-    <h1>Category list</h1>
-    <p>Nice to see you again, <span id="id_username"></span>. <a id="logout" href="Logout">logout</a></p>
+    <h1>Nice to see you again, <span id="id_username"></span>. <a id="logout" href="Logout">logout</a></h1>
     <div id="id_alert" class="alertMessage">
         <span id="closebtn" class="closebtn">&times;</span>
     </div>
     <div id="errorMessage" class="errorMessage">
         <span id="closebtn2" class="closebtn">&times;</span>
     </div>
-    <table class="pure-table pure-table-horizontal">
-        <caption>Drag an element on another to move the portion of the tree.</caption>
-        <tbody id="treeContainer">
-        <tr><th id="rootNode" style="display:none">0 Root</th></tr>
-        </tbody>
-    </table>
+    <div class="sideTable">
+        <table class="pure-table pure-table-horizontal">
+            <caption>Drag an element on another to move the portion of the tree.</caption>
+            <tbody id="treeContainer"></tbody>
+        </table>
+        <div id="saveButton" style="display:none">Save</div>
+    </div>
 
-    <button id="saveButton" style="display:none">Save</button>
-
-    <h1>Add a category</h1>
-    <form id="addCatForm" action="#">
-        <label for="name">New category's name: </label>
-        <input type="text" name="name" id="name" placeholder="Category's name" required>
-        <label for="father">Father's name: </label>
-        <input type="text" name="father" id="father" placeholder="Category's father" required>
-        <input id="addCatSubmit" type="button" value="add">
-    </form>
+    <div class="sideForm">
+        <h2>Add a category</h2>
+        <form id="addCatForm" action="#">
+            <label for="name">New category's name: </label>
+            <input type="text" name="name" id="name" placeholder="Category's name" required>
+            <label for="father">Father's name: </label>
+            <input type="text" name="father" id="father" placeholder="Category's father" required>
+            <input id="addCatSubmit" type="button" value="add">
+        </form>
+    </div>
 </body>
 </html>

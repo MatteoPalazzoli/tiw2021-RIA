@@ -17,7 +17,6 @@
                         nameCell = document.createElement("td");
                         nameCell.setAttribute("id", "cat0");
                         nameCell.textContent = "0 Root";
-                        nameCell.style.display = "none";
                         row.appendChild(nameCell);
                         table.appendChild(row);
                         listOfCategories.forEach( c => {
@@ -25,11 +24,7 @@
                             nameCell = document.createElement("td");
                             nameCell.setAttribute("draggable", "true");
                             nameCell.setAttribute("id", "cat"+c.id);
-                            let spaces = "";
-                            for(let i=0; i<c.id.length; i++){
-                                spaces += "&nbsp;&nbsp;&nbsp;&nbsp;";
-                            }
-                            nameCell.innerHTML = spaces+c.id + " "+ c.name;
+                            nameCell.innerHTML = c.id + " "+ c.name;
                             row.appendChild(nameCell);
                             table.appendChild(row);
                         })

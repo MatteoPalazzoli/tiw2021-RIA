@@ -27,16 +27,20 @@ td{
     padding: 5px;
     background-color: #F66358;
     color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     text-decoration: none;
 }
 
 #saveButton {
-    padding: 20px;
+    padding: 15px;
+    margin: 20px;
+    border-radius: 5px;
     background-color: #04AA6D;
     color: white;
     display: none;
     cursor: pointer;
+    float: right;
+    text-decoration: none;
 }
 
 .closebtn {
@@ -52,4 +56,15 @@ td{
 
 .closebtn:hover {
     color: black;
+}
+
+.sideForm {
+    float: right;
+    width: 50%;
+}
+.sideTable {
+    float:left;
+}
+.pure-table{
+    float: left;
 }

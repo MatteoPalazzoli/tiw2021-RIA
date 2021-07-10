@@ -18,7 +18,7 @@ import java.sql.SQLException;
 public class MoveTo extends Controller {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
 
     }
 

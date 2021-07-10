@@ -10,8 +10,8 @@
         if (form.checkValidity()) {
             makeCall("POST", 'CheckLogin', form,
                 function(x) {
-                    if (x.readyState == XMLHttpRequest.DONE) {
-                        var message = x.responseText;
+                    if (x.readyState === XMLHttpRequest.DONE) {
+                        const message = x.responseText;
                         switch (x.status) {
                             case 200:
                                 sessionStorage.setItem('user', message);

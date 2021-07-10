@@ -14,28 +14,30 @@
         addCategory();
     });
 
+
+    /* CATEGORY MOVING MANAGEMENT */
     let dragged;
     let ids = [];
-
-    /* events fired on the draggable target */
-    document.addEventListener("drag", function( event ) {
-
-    }, false);
 
     document.addEventListener("dragstart", function( event ) {
         dragged = event.target;
         dragged.style.opacity = .5;
-        document.getElementById("cat0").style.display = "block";
         let list = getChildren(dragged.id);
-        list.forEach(c => {c.setAttribute("draggable", "false")});
+        for(let i=0; i<list.length; i++){
+            list[i].setAttribute("draggable", "false");
+        }
         list = getOthers(dragged.id);
-        list.forEach(c => {c.classList.add("dropzone")});
+        for(let i=0; i<list.length; i++){
+            list[i].classList.add("dropzone");
+        }
     }, false);
 
     document.addEventListener("dragend", function( event ) {
-        // reset the transparency
         event.target.style.opacity = "";
-        document.getElementById("cat0").style.display = "none";
+        let list = getAll();
+        for(let i=0; i<list.length; i++){
+            list[i].setAttribute("draggable", "true");
+        }
     }, false);
 
     /* events fired on the drop targets */
@@ -58,19 +60,27 @@
         let destRow = event.target.parentNode;
         // move dragged elem and children to the selected drop target
         if ( event.target.className === "dropzone" ) {
-            let list = document.getElementsByTagName("td");
+            let list = document.getElementsByClassName("dropzone");
             for(let i=0; i<list.length; i++){
                 list[i].classList.remove("dropzone");
             }
             let toMove = document.querySelectorAll("[id^="+dragged.id+"]");
-            for(let i=0; i<toMove.length; i++){
-                toMove[i].parentNode.removeChild(toMove[i]);
-                toMove[i].textContent.replace(dragged.id, findNextId(event.target.id));
-                let row = document.createElement("tr");
-                row.appendChild(toMove[i]);
-                insertAfter(destRow, row);
-            }
+            let nextId = findNextId(event.target.textContent.split(" ", 1)[0]);
+            let beforeRow = findUpperRow(event.target.id);
             ids.push(dragged.id, event.target.id);
+            for(let i=toMove.length-1; i>=0; i--){
+                let newText = toMove[i].textContent.replace(dragged.id.substring(3), nextId);
+                let newRow = document.createElement("tr");
+                let nameCell = document.createElement("td");
+                nameCell.textContent = newText;
+                nameCell.setAttribute("id", "cat"+ newText.split(" ", 1)[0]);
+                nameCell.setAttribute("draggable", "true");
+                newRow.appendChild(nameCell);
+                insertAfter(document.getElementById(beforeRow).parentNode, newRow);
+            }
+            for(let i=0; i<toMove.length; i++){
+                toMove[i].parentNode.parentNode.removeChild(toMove[i].parentNode);
+            }
             document.getElementById("saveButton").style.display = "block";
         }
 
