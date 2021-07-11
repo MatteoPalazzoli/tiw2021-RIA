@@ -43,7 +43,7 @@ public class MoveTo extends Controller {
             return;
         }
         String fromId, toId;
-        for(int i=0; i<ids.length; i++){
+        for(int i=0; i<ids.length; i+=2){
             fromId = ids[i].substring(3);
             toId = ids[i+1].substring(3);
             try{

@@ -1,3 +1,4 @@
+body {font-family: Arial, Helvetica, sans-serif;}
 td:hover {
     background: #04AA6D;
 }
@@ -7,6 +8,10 @@ td{
 
 .dropzone:hover{
     background: #04AA6D;
+}
+
+.leftTitle{
+    float: left;
 }
 
 .alertMessage {
@@ -22,16 +27,37 @@ td{
     display: none;
 }
 
-
 #logout {
     padding: 5px;
+    margin: 20px;
     background-color: #F66358;
     color: white;
     border-radius: 5px;
     text-decoration: none;
+    float: right;
+}
+#logout:hover{
+    opacity: 0.8;
 }
 
-#saveButton {
+#moveTitle{
+    margin-left: 10px;
+}
+
+.sideForm {
+    float: right;
+    width: 50%;
+}
+.sideTable {
+    float:left;
+}
+
+.pure-table {
+    margin-left: 10px;
+    float: left;
+}
+
+.submitButton {
     padding: 15px;
     margin: 20px;
     border-radius: 5px;
@@ -39,10 +65,11 @@ td{
     color: white;
     display: none;
     cursor: pointer;
-    float: right;
+    float: left;
     text-decoration: none;
 }
 
+/* alerts' close button */
 .closebtn {
     margin-left: 15px;
     color: white;
@@ -53,18 +80,25 @@ td{
     cursor: pointer;
     transition: 0.3s;
 }
-
 .closebtn:hover {
     color: black;
 }
 
-.sideForm {
-    float: right;
-    width: 50%;
+.clearBoth{
+    clear:both;
 }
-.sideTable {
-    float:left;
+
+input[type=text]{
+    padding: 12px 20px;
+    margin: 10px 10px 10px 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+
 }
-.pure-table{
-    float: left;
+#addCatSubmit{
+    display: block;
+}
+.submitButton:hover {
+    opacity: 0.8;
 }

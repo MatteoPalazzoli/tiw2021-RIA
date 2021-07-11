@@ -98,4 +98,9 @@
             document.getElementById("saveButton").style.display = "none";
         })
     })
+
+    /*document.getElementById("addList").addEventListener("click", (e) => {
+        ids.push(document.getElementById("param").value);
+        document.getElementById("saveButton").style.display = "block";
+    })*/
 }

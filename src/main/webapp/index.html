@@ -6,20 +6,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="utils.js" charset="UTF-8" defer></script>
     <script src="loginManagement.js" charset="UTF-8" defer></script>
+
+    <link rel="stylesheet" href="css/login.css">
     <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body>
 <h1>Welcome to the categories management application</h1>
-
-<form action="#">
-    <fieldset>
-        Username: <input type="text" name="username" value="burger" required> <br>
-        Password: <input type="password" name="pwd" value="burgerpass" required><br>
+<div style="text-align: center;">
+    <form class="container" action="#">
+        <label for="username">Username: </label>
+        <input type="text" id="username" name="username" value="burger" required><br>
+        <label for="pwd">Password: </label>
+        <input type="password" id="pwd" name="pwd" value="burgerpass" required><br>
         <input id="loginbutton" type="button" value="login">
-        <p id="errormessage"></p>
-    </fieldset>
-</form>
-
+    </form>
+    <p id="errormessage"></p>
+</div>
 </body>
 </html>

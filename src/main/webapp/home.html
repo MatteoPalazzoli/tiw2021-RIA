@@ -17,30 +17,39 @@
     <style>td{cursor: pointer;}</style>
 </head>
 <body>
-    <h1>Nice to see you again, <span id="id_username"></span>. <a id="logout" href="Logout">logout</a></h1>
+    <div>
+        <h1 class="leftTitle">Nice to see you again, <span id="id_username"></span><!---->.<!----></h1><!--
+        --><h3><a id="logout" href="Logout">logout</a></h3>
+    </div>
     <div id="id_alert" class="alertMessage">
         <span id="closebtn" class="closebtn">&times;</span>
     </div>
     <div id="errorMessage" class="errorMessage">
         <span id="closebtn2" class="closebtn">&times;</span>
     </div>
+    <div class="clearBoth"></div>
     <div class="sideTable">
+        <h2 id="moveTitle">Move a category</h2>
         <table class="pure-table pure-table-horizontal">
             <caption>Drag an element on another to move the portion of the tree.</caption>
             <tbody id="treeContainer"></tbody>
         </table>
-        <div id="saveButton" style="display:none">Save</div>
+        <div id="saveButton" class="submitButton">Save</div>
     </div>
 
     <div class="sideForm">
         <h2>Add a category</h2>
         <form id="addCatForm" action="#">
             <label for="name">New category's name: </label>
-            <input type="text" name="name" id="name" placeholder="Category's name" required>
+            <input type="text" name="name" id="name" placeholder="Category's name" required><br>
             <label for="father">Father's name: </label>
             <input type="text" name="father" id="father" placeholder="Category's father" required>
-            <input id="addCatSubmit" type="button" value="add">
         </form>
+        <a id="addCatSubmit" class="submitButton">Add</a>
+        <!--<form action="#">
+            <input type="text" id="param">
+            <input type="button" id="addList">
+        </form>-->
     </div>
 </body>
 </html>
