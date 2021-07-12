@@ -74,10 +74,10 @@
         })
     })
 
-    document.getElementById("addList").addEventListener("click", (e) => {
+    /*document.getElementById("addList").addEventListener("click", (e) => {
         ids.push(document.getElementById("param").value);
         document.getElementById("saveButton").style.display = "block";
-    })
+    })*/
 
     function drag(event){
         dragged = event.target;
@@ -96,14 +96,13 @@
         // prevent default action (open as link for some elements)
         event.preventDefault();
         let destRow = event.target.parentNode;
-        let result = confirm("Do you confirm?");
-        if(!result) return;
         // move dragged elem and children to the selected drop target
         if ( event.target.className === "dropzone" ) {
             let list = document.getElementsByClassName("dropzone");
             for(let i=0; i<list.length; i++){
                 list[i].classList.remove("dropzone");
             }
+            if(!confirm("Do you confirm?")) return;
             let toMove = document.querySelectorAll("[id^="+dragged.id+"]");
             let nextId = findNextId(event.target.textContent.split(" ", 1)[0]);
             let beforeRow = findUpperRow(event.target.id);
