@@ -27,6 +27,5 @@ function makeCall(method, url, formElement, cback, reset = true) {
         req.send(new FormData(formElement));
     }
     if (formElement !== null && reset === true) {
-        //TODO formElement.reset();
     }
 }

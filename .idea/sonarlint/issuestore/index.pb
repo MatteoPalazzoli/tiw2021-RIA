@@ -34,9 +34,3 @@ N
 -src/main/java/it/pala/tiwria/dao/UserDAO.java,8\8\88daf40fe2fecf4568627f5af010f06904acb88e
 H
 src/main/webapp/utils.js,6\e\6e3a6000df11222c8c99ea8f26071adbb25def5e
-R
-"src/main/webapp/loginManagement.js,7\6\7633dad9b5485476556280bb5a47906577bb34f6
-W
-'src/main/webapp/categoriesManagement.js,f\f\ff2e27bb1dfca5d155cfba6265defb82f9804c02
-h
-8src/main/java/it/pala/tiwria/controllers/CheckLogin.java,2\3\2345ad5c2079394fa13df597b81443749fe1b2e2
