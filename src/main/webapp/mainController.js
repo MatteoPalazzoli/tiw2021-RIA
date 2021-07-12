@@ -92,15 +92,34 @@
         ids = [];
         makeCall("POST", "Move", data, function(x){
             if (x.readyState === XMLHttpRequest.DONE) {
-                showAlert(x.responseText);
+                const message = x.responseText;
+                switch(x.status){
+                    case 200:{
+                        showAlert(message)
+                        getTree();
+                        break;
+                    }
+                    case 400:{
+                        showError(message);
+                        break;
+                    }
+                    case 401:{
+                        showError(message);
+                        break;
+                    }
+                    case 403:{
+                        window.location.href = x.getResponseHeader("Location");
+                        window.sessionStorage.removeItem('user');
+                        break;
+                    }
+                }
             }
-            getTree();
             document.getElementById("saveButton").style.display = "none";
         })
     })
 
-    /*document.getElementById("addList").addEventListener("click", (e) => {
+    document.getElementById("addList").addEventListener("click", (e) => {
         ids.push(document.getElementById("param").value);
         document.getElementById("saveButton").style.display = "block";
-    })*/
+    })
 }

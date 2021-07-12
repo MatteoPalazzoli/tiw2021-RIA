@@ -7,7 +7,7 @@
                     const message = req.responseText;
                     switch(req.status){
                         case 200:{
-                            showAlert("Category added.")
+                            showAlert(message)
                             getTree();
                             break;
                         }

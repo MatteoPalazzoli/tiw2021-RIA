@@ -18,18 +18,8 @@ import java.sql.SQLException;
 public class AddCategory extends Controller {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) {
-        response.setContentType("text/html");
-        PrintWriter out;
-        response.setCharacterEncoding(UTF8);
-        try{
-            out = response.getWriter();
-        } catch (IOException e){
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            return;
-        }
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        out.print("GET used");
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect(getServletContext().getContextPath()+"/Home");
     }
 
     @Override

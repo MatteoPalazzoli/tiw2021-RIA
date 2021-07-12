@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
-@WebFilter(filterName="Checker", value={"/GetTree"})
+@WebFilter(filterName="Checker", value={"/home.html", "/GetTree", "/AddCategory", "/Move"})
 public class Checker implements Filter {
 
     /**
@@ -42,7 +42,8 @@ public class Checker implements Filter {
         if (!req.getRequestURI().equals(loginPath)
                 && !req.getRequestURI().equals(checkPath)
                 && (s.isNew() || s.getAttribute("user") == null)) {
-            res.sendRedirect(loginPath);
+            res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+            res.addHeader("Location", loginPath);
             return;
         }
 

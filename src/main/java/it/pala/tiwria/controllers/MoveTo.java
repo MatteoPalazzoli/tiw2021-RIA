@@ -12,14 +12,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 @WebServlet(name="MoveTo", value="/Move")
 @MultipartConfig
 public class MoveTo extends Controller {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) {
-
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        response.sendRedirect(getServletContext().getContextPath()+"/Home");
     }
 
     @Override
@@ -35,11 +36,15 @@ public class MoveTo extends Controller {
         }
 
         String listStr = StringEscapeUtils.escapeJava(request.getParameter("list"));
-        String[] ids = listStr.split(",");
-        //couples of values are sent
-        if(ids.length % 2 != 0){
+        if(listStr == null){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            out.println("Missing values (odd number of values sent).");
+            out.println("Missing values.");
+            return;
+        }
+        String[] ids = listStr.split(",");
+        if(ids.length % 2 != 0 || Arrays.stream(ids).anyMatch( c -> !c.startsWith("cat"))){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.println("Input is missing or invalid: no action taken.");
             return;
         }
         String fromId, toId;

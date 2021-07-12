@@ -22,7 +22,7 @@ public class CategoryDAO {
      * @return Category's ID
      * @throws NoSuchCategoryException if the category is not found
      */
-    public Category findCategory(String category, ParamType type) throws NoSuchCategoryException {
+    private Category findCategory(String category, ParamType type) throws NoSuchCategoryException {
         String param;
         String toFind;
         if(type == ParamType.ID){
@@ -47,7 +47,7 @@ public class CategoryDAO {
         }
     }
 
-    public String findNextChildId(String father) throws SQLException, NoSuchCategoryException, IndexOutOfBoundsException {
+    private String findNextChildId(String father) throws SQLException, NoSuchCategoryException, IndexOutOfBoundsException {
         String query;
         ResultSet result;
         if(father.equals("Root")){
@@ -122,7 +122,7 @@ public class CategoryDAO {
      * @return tree
      * @throws SQLException if a database error occurs
      */
-    public List<String> getTree(String id) throws SQLException {
+    private List<String> getTree(String id) throws SQLException {
         List<String> categories = new LinkedList<>();
         String id2 = id
                 .replace("!", "!!")
@@ -151,8 +151,11 @@ public class CategoryDAO {
     public void updateCategory(String id, String destinationId) throws SQLException, NoSuchCategoryException, IllegalMoveException, IndexOutOfBoundsException {
         if(!isPresent(id, ParamType.ID)) throw new NoSuchCategoryException("Category "+id+" doesn't exists.");
         if(!isPresent(destinationId, ParamType.ID)) throw new NoSuchCategoryException("Category "+destinationId+" doesn't exists.");
-        if(!id.equals(destinationId) && destinationId.startsWith(id)) throw new IllegalMoveException("Cannot move a father under one of its children.");
-
+        if(destinationId.startsWith(id)){
+            if(id.length() != destinationId.length()) throw new IllegalMoveException("Cannot move a father ("+id+") under one of its children ("+destinationId+")");
+            else return; //ids are equal
+        }
+        if(id.equals("0")) throw new IllegalMoveException("Cannot move Root");
         List<String> ids = getTree(id);
         Category destination = findCategory(destinationId, ParamType.ID);
         String newFather = findNextChildId(destination.getName());
