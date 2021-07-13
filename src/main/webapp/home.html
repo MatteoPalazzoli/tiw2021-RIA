@@ -14,9 +14,9 @@
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/tables.css">
-    <style>td{cursor: pointer;}</style>
 </head>
 <body>
+<div class="container">
     <div>
         <h1 class="leftTitle">Nice to see you again, <span id="id_username"></span></h1>
         <h3><a id="logout" href="Logout">logout</a></h3>
@@ -40,15 +40,19 @@
     <div class="sideForm">
         <h2>Add a category</h2>
         <form id="addCatForm" action="#">
-            <label for="name">New category's name: </label>
-            <input type="text" name="name" id="name" placeholder="Category's name" required><br>
-            <label for="father">Father's name: </label>
-            <input type="text" name="father" id="father" placeholder="Category's father" required>
+            <div class="column">
+                <input type="text" name="name" id="name" placeholder="Category's name" required><br>
+            </div>
+            <div class="column">
+                <input type="text" name="father" id="father" placeholder="Category's father" required>
+            </div>
         </form>
+        <div class="clearBoth"></div>
         <a id="addCatSubmit" class="submitButton">Add</a>
 
         <!--<form><input type="text" id="param"></form>
         <button id="addList">add</button>-->
     </div>
+</div>
 </body>
 </html>

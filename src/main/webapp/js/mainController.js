@@ -4,8 +4,8 @@
         if (sessionStorage.getItem("user") === null) {
             window.location.href = "index.html";
         } else {
-            document.getElementById("id_username").textContent = sessionStorage.getItem("user");
             getTree();
+            document.getElementById("id_username").textContent = sessionStorage.getItem("user");
         }
     }, false);
 
@@ -21,15 +21,15 @@
     let ids = [];
 
     document.addEventListener("dragstart", function( event ) {
-        drag(event)
+        drag(event);
     }, false);
 
     document.addEventListener("dragend", function( event ) {
         event.target.style.opacity = "";
-        let list = getAll();
+        /*let list = getAll();
         for(let i=0; i<list.length; i++){
             list[i].setAttribute("draggable", "true");
-        }
+        }*/
     }, false);
 
     document.addEventListener("dragover", function( event ) {
@@ -52,17 +52,12 @@
                 switch(x.status){
                     case 200:{
                         showAlert(message)
-                        getTree();
                         break;
                     }
-                    case 400:{
+                    case 400:
+                    case 401:
                         showError(message);
                         break;
-                    }
-                    case 401:{
-                        showError(message);
-                        break;
-                    }
                     case 403:{
                         window.location.href = x.getResponseHeader("Location");
                         window.sessionStorage.removeItem('user');
@@ -70,6 +65,7 @@
                     }
                 }
             }
+            getTree();
             document.getElementById("saveButton").style.display = "none";
         })
     })
@@ -82,11 +78,11 @@
     function drag(event){
         dragged = event.target;
         dragged.style.opacity = .5;
-        let list = getChildren(dragged.id);
+        /*let list = getChildren(dragged.id);
         for(let i=0; i<list.length; i++){
             list[i].setAttribute("draggable", "false");
-        }
-        list = getOthers(dragged.id);
+        }*/
+        let list = getOthers(dragged.id);
         for(let i=0; i<list.length; i++){
             list[i].classList.add("dropzone");
         }
@@ -102,9 +98,16 @@
             for(let i=0; i<list.length; i++){
                 list[i].classList.remove("dropzone");
             }
+            //confirm dialog
             if(!confirm("Do you confirm?")) return;
+            //additional input check
+            let regExp = new RegExp("^cat\\d+$");
+            if(event.target.id.startsWith(dragged.id) || !event.target.id.match(regExp) || !dragged.id.match(regExp)){
+                alert("This request is invalid!");
+                return;
+            }
             let toMove = document.querySelectorAll("[id^="+dragged.id+"]");
-            let nextId = findNextId(event.target.textContent.split(" ", 1)[0]);
+            let nextId = findNextId(event.target.id.substring(3));
             let beforeRow = findUpperRow(event.target.id);
             ids.push(dragged.id, event.target.id);
             for(let i=toMove.length-1; i>=0; i--){

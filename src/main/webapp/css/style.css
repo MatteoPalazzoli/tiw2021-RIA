@@ -1,4 +1,14 @@
-body {font-family: Arial, Helvetica, sans-serif;}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.container{
+    overflow: auto;
+    background-color: #E8E8E8;
+    padding: 20px;
+}
 td:hover {
     background: #04AA6D;
 }
@@ -47,6 +57,10 @@ td{
 .sideForm {
     float: right;
     width: 50%;
+    background-color: #B1CBDC;
+    border-radius: 5px;
+    margin: 20px;
+    padding: 20px 40px 40px 40px;
 }
 .sideTable {
     float:left;
@@ -54,18 +68,17 @@ td{
 
 .pure-table {
     margin-left: 10px;
-    float: left;
+    margin-bottom: 20px;
 }
 
 .submitButton {
     padding: 15px;
-    margin: 20px;
+    margin-top: 20px;
     border-radius: 5px;
     background-color: #04AA6D;
     color: white;
     display: none;
     cursor: pointer;
-    float: left;
     text-decoration: none;
 }
 
@@ -90,15 +103,21 @@ td{
 
 input[type=text]{
     padding: 12px 20px;
-    margin: 10px 10px 10px 10px;
     display: inline-block;
     border: 1px solid #ccc;
     box-sizing: border-box;
-
 }
 #addCatSubmit{
     display: block;
 }
 .submitButton:hover {
     opacity: 0.8;
+}
+.column{
+    float: left;
+    width: 50%;
+}
+
+#saveButton{
+    margin-left: 20px;
 }

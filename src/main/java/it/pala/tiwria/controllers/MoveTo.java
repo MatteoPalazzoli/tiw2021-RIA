@@ -1,5 +1,6 @@
 package it.pala.tiwria.controllers;
 
+import it.pala.tiwria.beans.Category;
 import it.pala.tiwria.dao.CategoryDAO;
 import it.pala.tiwria.exceptions.IllegalMoveException;
 import it.pala.tiwria.exceptions.NoSuchCategoryException;
@@ -13,6 +14,10 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Arrays;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @WebServlet(name="MoveTo", value="/Move")
 @MultipartConfig
@@ -34,40 +39,51 @@ public class MoveTo extends Controller {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
-
+        Pattern regExp = Pattern.compile("^cat\\d+$");
         String listStr = StringEscapeUtils.escapeJava(request.getParameter("list"));
+        /* null check */
         if(listStr == null){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             out.println("Missing values.");
             return;
         }
-        String[] ids = listStr.split(",");
-        if(ids.length % 2 != 0 || Arrays.stream(ids).anyMatch( c -> !c.startsWith("cat"))){
+        List<String> ids = Arrays.asList(listStr.split(","));
+        CategoryDAO dao = new CategoryDAO(connection);
+        List<String> list;
+        /* pattern check */
+        if(ids.size() % 2 != 0 || !ids.stream().allMatch(c -> regExp.matcher(c).find())){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             out.println("Input is missing or invalid: no action taken.");
             return;
         }
+        ids = ids.stream().map(c -> c.substring(3)).collect(Collectors.toList());
+        try{
+            list = dao.getTree().stream().map(Category::getId).collect(Collectors.toList());
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return;
+        }
+        /* present check */
+        if(ids.stream().anyMatch(c -> !list.contains(c))){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            out.println("Some of the categories don't exist: no action taken.");
+            return;
+        }
         String fromId, toId;
-        for(int i=0; i<ids.length; i+=2){
-            fromId = ids[i].substring(3);
-            toId = ids[i+1].substring(3);
-            try{
-                //number check
-                Integer.parseInt(fromId);
-                Integer.parseInt(toId);
-            } catch(NumberFormatException e){
-                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                out.println("Illegal arguments (not numbers).");
-                return;
-            }
-            //father under child check
+        /* illegal move check */
+        for(int i=0; i<ids.size(); i+=2){
+            fromId = ids.get(i);
+            toId = ids.get(i+1);
             if(toId.startsWith(fromId)){
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                out.println("Cannot move a father under a child (\""+fromId+"\" to \""+toId+"\"). ");
+                out.println("Cannot move a father under a child (\""+fromId+"\" to \""+toId+"\").\nNo action taken.");
                 return;
             }
-
-            CategoryDAO dao = new CategoryDAO(connection);
+        }
+        /* perform */
+        for(int i=0; i<ids.size(); i+=2){
+            fromId = ids.get(i);
+            toId = ids.get(i+1);
             try {
                 dao.updateCategory(fromId, toId);
             } catch (SQLException e) {
