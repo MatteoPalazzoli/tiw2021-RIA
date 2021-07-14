@@ -1,6 +1,5 @@
 package it.pala.tiwria.controllers;
 
-import it.pala.tiwria.beans.Category;
 import it.pala.tiwria.dao.CategoryDAO;
 import it.pala.tiwria.exceptions.IllegalMoveException;
 import it.pala.tiwria.exceptions.NoSuchCategoryException;
@@ -15,7 +14,6 @@ import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -49,7 +47,6 @@ public class MoveTo extends Controller {
         }
         List<String> ids = Arrays.asList(listStr.split(","));
         CategoryDAO dao = new CategoryDAO(connection);
-        List<String> list;
         /* pattern check */
         if(ids.size() % 2 != 0 || !ids.stream().allMatch(c -> regExp.matcher(c).find())){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -57,18 +54,6 @@ public class MoveTo extends Controller {
             return;
         }
         ids = ids.stream().map(c -> c.substring(3)).collect(Collectors.toList());
-        try{
-            list = dao.getTree().stream().map(Category::getId).collect(Collectors.toList());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return;
-        }
-        /* present check */
-        if(ids.stream().anyMatch(c -> !list.contains(c))){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-            out.println("Some of the categories don't exist: no action taken.");
-            return;
-        }
         String fromId, toId;
         /* illegal move check */
         for(int i=0; i<ids.size(); i+=2){
@@ -88,7 +73,7 @@ public class MoveTo extends Controller {
                 dao.updateCategory(fromId, toId);
             } catch (SQLException e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-                out.println("[SQL] Could not move the category from "+fromId+" to "+toId+".");
+                out.println("[Internal Server Error] Could not move the category from "+fromId+" to "+toId+".");
                 return;
             } catch (NoSuchCategoryException | IllegalMoveException | IndexOutOfBoundsException e) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

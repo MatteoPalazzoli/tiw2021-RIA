@@ -34,15 +34,5 @@ N
 -src/main/java/it/pala/tiwria/dao/UserDAO.java,8\8\88daf40fe2fecf4568627f5af010f06904acb88e
 M
 src/main/webapp/css/login.css,c\9\c953adb63298078442a1704870875d6d03cf7c6f
-h
-8src/main/java/it/pala/tiwria/controllers/Controller.java,b\6\b60c60e4e8415a3c12c7384892e467448cb48495
-i
-9src/main/java/it/pala/tiwria/controllers/AddCategory.java,8\a\8a26a53a9e4f84c539283f9ec6f3ae2c0325d236
-h
-8src/main/java/it/pala/tiwria/controllers/CheckLogin.java,2\3\2345ad5c2079394fa13df597b81443749fe1b2e2
 Q
 !src/main/webapp/js/addCategory.js,9\2\92ea4557d1c7a8e5ce87a3404a2219379444e3f3
-U
-%src/main/webapp/js/loginManagement.js,7\b\7b98cc6dd295fe2a8b4a683ec0ed4596fcb0f0f4
-K
-src/main/webapp/js/utils.js,b\6\b615e0fd9d68e26908fe50dcc6fe5da09498054c

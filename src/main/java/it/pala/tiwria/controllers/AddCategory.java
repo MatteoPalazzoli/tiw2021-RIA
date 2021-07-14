@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 @WebServlet(name="AddCategory", value="/AddCategory")
@@ -23,7 +25,7 @@ public class AddCategory extends Controller {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         PrintWriter out;
         try{
             out = response.getWriter();
@@ -31,11 +33,12 @@ public class AddCategory extends Controller {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
+        request.setCharacterEncoding(UTF8);
         response.setCharacterEncoding(UTF8);
         response.setContentType("text/html");
 
-        String name = StringEscapeUtils.escapeJava(request.getParameter("name"));
-        String father = StringEscapeUtils.escapeJava(request.getParameter("father"));
+        String name = request.getParameter("name");
+        String father = request.getParameter("father");
 
         if(emptyField(name) || emptyField(father)){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -47,6 +50,7 @@ public class AddCategory extends Controller {
         try {
             dao.createCategory(name, father);
         } catch (SQLException e) {
+            e.printStackTrace();
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             out.println("Could not add the category.");
             return;

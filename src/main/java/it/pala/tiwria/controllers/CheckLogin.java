@@ -2,7 +2,6 @@ package it.pala.tiwria.controllers;
 
 import it.pala.tiwria.dao.UserDAO;
 import it.pala.tiwria.exceptions.WrongUserException;
-import org.apache.commons.text.StringEscapeUtils;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.SQLException;
 
 @WebServlet(name="CheckLogin", value={"/CheckLogin"})
@@ -17,15 +17,16 @@ import java.sql.SQLException;
 public class CheckLogin extends Controller {
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) {
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         doPost(request, response);
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         String user, pwd, name = "";
         PrintWriter out;
         response.setCharacterEncoding(UTF8);
+        request.setCharacterEncoding(UTF8);
 
         try{
             out = response.getWriter();
@@ -40,8 +41,9 @@ public class CheckLogin extends Controller {
             return;
         }
 
-        user = StringEscapeUtils.escapeJava(request.getParameter("username"));
-        pwd = StringEscapeUtils.escapeJava(request.getParameter("pwd"));
+        user = request.getParameter("username");
+        pwd = request.getParameter("pwd");
+
         if(emptyField(user) || emptyField(pwd)){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             response.setContentType("text/html");

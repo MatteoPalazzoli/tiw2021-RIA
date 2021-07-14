@@ -3,7 +3,6 @@
  */
 
 (function() { // avoid variables ending up in the global scope
-
     document.getElementById("loginbutton").addEventListener('click', (e) => {
         e.preventDefault();
         const form = e.target.closest("form");
@@ -34,5 +33,4 @@
             form.reportValidity();
         }
     });
-
 })();

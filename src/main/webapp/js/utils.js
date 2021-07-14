@@ -26,6 +26,4 @@ function makeCall(method, url, formElement, cback, reset = true) {
     } else {
         req.send(new FormData(formElement));
     }
-    if (formElement !== null && reset === true) {
-    }
 }
