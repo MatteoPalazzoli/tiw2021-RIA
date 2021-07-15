@@ -1,9 +1,23 @@
-body {font-family: Arial, Helvetica, sans-serif;}
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 form {
     border: 3px solid #f1f1f1;
     width: max(100px, 30%);
     margin-left: auto;
     margin-right: auto;
+    padding: 20px;
+}
+
+.container{
+    overflow: auto;
+    background-color: #E8E8E8;
+    padding: 20px;
+    text-align: center;
 }
 
 input[type=text], input[type=password] {
@@ -28,6 +42,8 @@ input[type=button]:hover {
     opacity: 0.8;
 }
 
-.container {
-    padding: 16px;
+.errormessage{
+    margin-left: auto;
+    margin-right: auto;
+    color: red;
 }

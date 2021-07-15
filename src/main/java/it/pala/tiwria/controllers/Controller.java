@@ -5,6 +5,7 @@ import it.pala.tiwria.utils.ConnectionHandler;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 public class Controller extends HttpServlet {
 
@@ -22,5 +23,11 @@ public class Controller extends HttpServlet {
     }
 
     @Override
-    public void destroy(){ }
+    public void destroy(){
+        try {
+            ConnectionHandler.closeConnection(connection);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

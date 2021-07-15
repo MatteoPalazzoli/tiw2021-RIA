@@ -10,7 +10,7 @@ public class Logout extends Controller{
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        request.getSession().setAttribute("user", null);
+        request.getSession().invalidate();
         response.sendRedirect(getServletContext().getContextPath()+"/index.html");
     }
 

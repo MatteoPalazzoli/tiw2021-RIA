@@ -3,7 +3,6 @@ package it.pala.tiwria.controllers;
 import it.pala.tiwria.dao.CategoryDAO;
 import it.pala.tiwria.exceptions.DuplicateCategoryException;
 import it.pala.tiwria.exceptions.NoSuchCategoryException;
-import org.apache.commons.text.StringEscapeUtils;
 
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 
 @WebServlet(name="AddCategory", value="/AddCategory")

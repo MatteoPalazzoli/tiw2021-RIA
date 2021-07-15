@@ -38,9 +38,9 @@ public class MoveTo extends Controller {
             return;
         }
         Pattern regExp = Pattern.compile("^cat\\d+$");
-        String listStr = StringEscapeUtils.escapeJava(request.getParameter("list"));
+        String listStr = request.getParameter("list");
         /* null check */
-        if(listStr == null){
+        if(emptyField(listStr)){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             out.println("Missing values.");
             return;
@@ -81,7 +81,7 @@ public class MoveTo extends Controller {
                 return;
             }
             response.setStatus(HttpServletResponse.SC_OK);
-            out.println("Moved \""+fromId+"\" to \""+toId+"\". ");
+            out.println("Moved "+fromId+" to "+toId+". ");
         }
     }
 }

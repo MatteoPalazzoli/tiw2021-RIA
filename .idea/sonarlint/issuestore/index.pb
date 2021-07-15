@@ -24,15 +24,11 @@ N
 .idea/artifacts/tiwRia_war.xml,f\9\f9577b73a267c8c0539745c4ef6bdef00ed80297
 W
 '.idea/artifacts/tiwRia_war_exploded.xml,c\3\c3a0dff7879befa2620b3a7425fde1668f81b86f
-d
-4src/main/java/it/pala/tiwria/controllers/Logout.java,b\0\b03edd0384347a0e3c6f282831f5dfdd4e86b7e9
 _
 /src/main/java/it/pala/tiwria/dao/ParamType.java,3\1\3122003ae095f2a131167118feafd4342adb5fd1
 N
 src/main/webapp/css/tables.css,7\5\7510574e1f73e81e830328f8b1aaf381b0317a95
 ]
 -src/main/java/it/pala/tiwria/dao/UserDAO.java,8\8\88daf40fe2fecf4568627f5af010f06904acb88e
-M
-src/main/webapp/css/login.css,c\9\c953adb63298078442a1704870875d6d03cf7c6f
 Q
 !src/main/webapp/js/addCategory.js,9\2\92ea4557d1c7a8e5ce87a3404a2219379444e3f3

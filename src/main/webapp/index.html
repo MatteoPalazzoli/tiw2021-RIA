@@ -12,14 +12,12 @@
     <link rel="icon" href="images/favicon.ico" type="image/x-icon">
 </head>
 <body>
+<div class="container">
 <h1>Categories management application</h1>
 <h2>User login</h2>
-<div style="text-align: center;">
-    <form class="container" action="#">
-        <label for="username">Username: </label>
-        <input type="text" id="username" name="username" required><br>
-        <label for="pwd">Password: </label>
-        <input type="password" id="pwd" name="pwd" required><br>
+    <form action="#">
+        <input type="text" id="username" name="username" placeholder="Username" required><br>
+        <input type="password" id="pwd" name="pwd" placeholder="Password" required><br>
         <input id="loginbutton" type="button" value="login">
     </form>
     <p id="errormessage"></p>
