@@ -98,7 +98,7 @@
                             showError(message);
                             break;
                         case 403:{
-                            window.location.href = x.getResponseHeader("Location");
+                            window.location.href = "index.html";
                             window.sessionStorage.removeItem('user');
                             break;
                         }

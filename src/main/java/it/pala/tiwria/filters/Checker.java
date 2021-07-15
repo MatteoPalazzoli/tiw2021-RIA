@@ -43,7 +43,7 @@ public class Checker implements Filter {
                 && !req.getRequestURI().equals(checkPath)
                 && (s.isNew() || s.getAttribute("user") == null)) {
             res.setStatus(HttpServletResponse.SC_FORBIDDEN);
-            res.addHeader("Location", loginPath);
+            res.sendRedirect(loginPath);
             return;
         }
 
